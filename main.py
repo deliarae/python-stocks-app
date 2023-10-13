@@ -7,8 +7,6 @@ from datetime import date, timedelta
 # IFTTT Webhooks credentials, for now
 event_name = ""
 ifttt_id = "GYsVx2TL"
-ifttt_key = "jGbfuiSpye4-CxrkSGAXUSPtF-fhxpC5fjgL0VbyJjt"
-
 
 
 # Calculate the start and end dates in YYYY-MM-DD format for the 7-day period,
@@ -71,7 +69,7 @@ for ticker, stock_data in data_marketopen.items():
 # --------- TRIGGER WEBHOOK IF CONDITION IS MET -----------
 # Function to trigger IFTTT event
 def trigger(event_name):
-    url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{ifttt_key}'
+    url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{config.ifttt_key}'
     response = requests.post(url)
     if response.status_code == 200:
         print(f"Triggered the IFTTT applet for {event_name} successfully.")
