@@ -18,7 +18,7 @@ start_date = end_date - timedelta(days=6)
 # --------- 7 DAY AVERAGE -----------
 # Function to get the stock data from the last 7 days and return JSON response
 def get_previous_7_days(api, start_date, today):
-    tickers = ["TSLA", "AAPL", "MSFT", "GOOG", "NKE"]
+    tickers = "TSLA", "AAPL", "MSFT", "GOOG", "NKE"
     response = {}
     for ticker in tickers:
         url = f"https://api.twelvedata.com/time_series?symbol={ticker}&interval=1day&start_date={start_date}&end_date={today}&apikey={api}"
@@ -37,7 +37,7 @@ for ticker, stock_data in data_7_days.items():
 # --------- REAL-TIME PRICE -----------
 # Function to retrieve real-time price
 def get_realtime_price(api):
-    tickers = ["TSLA", "AAPL", "MSFT", "GOOG", "NKE"]
+    tickers = "TSLA", "AAPL", "MSFT", "GOOG", "NKE"
     response = {}
     for ticker in tickers:
         url = f"https://api.twelvedata.com/price?symbol={ticker}&apikey={api}"
@@ -51,7 +51,7 @@ data_realtime = get_realtime_price(config.api_key2)
 # --------- MARKET OPEN PRICE -----------
 # Function to get the market open, to compare real-time price to
 def get_market_open(api, today):
-    tickers = ["TSLA", "AAPL", "MSFT", "GOOG", "NKE"]
+    tickers = "TSLA", "AAPL", "MSFT", "GOOG", "NKE"
     response = {}
     for ticker in tickers:
         url = f"https://api.twelvedata.com/time_series?symbol={ticker}&interval=1day&outputsize=1&apikey={api}"
@@ -70,11 +70,12 @@ for ticker, stock_data in data_marketopen.items():
 # Function to trigger IFTTT event
 def trigger(event_name):
     url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{config.ifttt_key}'
-    response = requests.post(url)
-    if response.status_code == 200:
+
+    if requests.post(url).status_code == 200:
         print(f"Triggered the IFTTT applet for {event_name} successfully.")
-    else:
-        print(f"Failed to trigger the IFTTT applet for {event_name}.")
+        return
+    
+    print(f"Failed to trigger the IFTTT applet for {event_name}.")
 
 # Map of tickers to event names
 ticker_to_event = {
